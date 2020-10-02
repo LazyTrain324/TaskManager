@@ -37,11 +37,7 @@ public class Task {
     }
 
     int getTime(){
-        if(isRepeated()){
-            return time;
-        }else{
-            return start;
-        }
+        return isRepeated()?time:start;
     }
 
     void setTime(int time){
@@ -51,27 +47,15 @@ public class Task {
     }
 
     int getStartTime(){
-        if(!isRepeated()){
-            return start;
-        }else{
-            return time;
-        }
+        return isRepeated()?start:time;
     }
 
     int getEndTime(){
-        if(!isRepeated()){
-            return end;
-        }else{
-            return time;
-        }
+        return isRepeated()?end:time;
     }
 
     int getRepeatInterval(){
-        if(!isRepeated()){
-            return interval;
-        }else {
-            return 0;
-        }
+        return isRepeated()?interval:0;
     }
 
     void setTime(int start, int end, int interval){
@@ -84,21 +68,17 @@ public class Task {
     boolean isRepeated(){
         return repeated;
     }
-    int nextTimeAfter(int current){
-        if(isActive()){
-            if(isRepeated()){
-                for(int i = getStartTime(); i < getEndTime(); i += getRepeatInterval()){
-                    if (current<i){
-                        return i;
-                    }
-                }
-                return -1;
-            }else{
-                return getTime();
-            }
 
-        }else{
+    int nextTimeAfter(int current){
+        if(isRepeated()){
+            for(int i = getStartTime(); i < getEndTime(); i += getRepeatInterval()){
+                if (current<i){
+                    return i;
+                }
+            }
             return -1;
+        }else{
+            return time>current?time:-1;
         }
     }
 }
